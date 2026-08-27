@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import './globals.css';
 
 export const metadata: Metadata = {
   title: '월간 발주계획 | Procurement Planning',
