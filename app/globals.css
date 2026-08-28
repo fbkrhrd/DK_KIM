@@ -1,20 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --ink: #182230;
-  --muted: #718096;
-  --line: #e3e8ef;
-  --canvas: #f5f7fb;
-  --surface: #ffffff;
-  --navy: #17365d;
-  --blue: #2f6fed;
-  --pale-blue: #edf4ff;
-  --green: #1f9d68;
-  --pale-green: #eaf8f1;
-  --amber: #bd7211;
-  --pale-amber: #fff6e4;
-  --red: #c2413d;
-  --pale-red: #fff0ef;
+  --ink: #1b1c1d;
+  --muted: #5f656d;
+  --line: #c4c6cd;
+  --canvas: #f5f3f4;
+  --surface: #fbf9fa;
+  --navy: #041627;
+  --blue: #38485a;
+  --pale-blue: #d2e4fb;
+  --green: #027a48;
+  --pale-green: #d1fadf;
+  --amber: #9a5b0d;
+  --pale-amber: #feddb5;
+  --red: #ba1a1a;
+  --pale-red: #ffdad6;
 }
 
 * {
@@ -27,7 +27,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--canvas);
-  font-family: "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Inter", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
@@ -44,11 +44,15 @@ button {
   display: flex;
 }
 .sidebar {
-  width: 250px;
-  flex: 0 0 250px;
-  background: #102b4b;
-  color: #fff;
-  padding: 28px 18px;
+  width: 256px;
+  flex: 0 0 256px;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 50;
+  background: var(--surface);
+  color: var(--ink);
+  border-right: 1px solid var(--line);
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
 }
@@ -56,16 +60,17 @@ button {
   display: flex;
   gap: 12px;
   align-items: center;
-  margin: 0 8px 38px;
+  margin: 0 8px 32px;
 }
 .brand-mark {
   width: 38px;
   height: 38px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: #2f6fed;
-  font-weight: 800;
+  border-radius: 8px;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 700;
   letter-spacing: -1px;
 }
 .brand-copy strong {
@@ -76,11 +81,11 @@ button {
 .brand-copy span {
   display: block;
   margin-top: 3px;
-  color: #a7bad2;
+  color: var(--muted);
   font-size: 11px;
 }
 .nav-label {
-  color: #7e99b6;
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 1.3px;
   font-size: 10px;
@@ -95,7 +100,7 @@ button {
 .nav-button {
   border: 0;
   border-radius: 10px;
-  color: #c3d2e3;
+  color: var(--muted);
   background: transparent;
   padding: 12px 11px;
   display: flex;
@@ -106,16 +111,18 @@ button {
   transition: 0.15s ease;
 }
 .nav-button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: #e9e7e9;
+  color: var(--navy);
 }
 .nav-button.active {
-  background: #2f6fed;
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(210, 228, 251, 0.45);
+  color: var(--navy);
+  border-right: 3px solid var(--navy);
+  border-radius: 4px 0 0 4px;
+  box-shadow: none;
 }
 .nav-button.complete {
-  color: #d5f3e4;
+  color: var(--green);
 }
 .nav-number {
   width: 22px;
@@ -134,13 +141,13 @@ button {
 .sidebar-foot {
   margin-top: auto;
   padding: 15px 10px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: #8fa7c0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
   font-size: 11px;
   line-height: 1.6;
 }
 .sidebar-foot b {
-  color: #fff;
+  color: var(--navy);
   font-weight: 600;
 }
 .sidebar-analysis-link {
@@ -149,16 +156,16 @@ button {
   gap: 9px;
   margin: 0 10px 14px;
   padding: 9px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--line);
   border-radius: 7px;
-  color: #fff;
+  color: var(--navy);
   font-size: 12px;
   font-weight: 600;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface);
 }
 .sidebar-analysis-link:hover {
-  background: rgba(255, 255, 255, 0.13);
+  background: #e9e7e9;
 }
 .sidebar-analysis-group {
   margin: 0 10px 14px;
@@ -168,7 +175,7 @@ button {
   align-items: center;
   gap: 7px;
   margin-bottom: 5px;
-  color: #fff;
+  color: var(--navy);
   font-size: 12px;
   font-weight: 700;
 }
@@ -177,13 +184,13 @@ button {
   padding: 6px 8px;
   border: 0;
   background: transparent;
-  color: #b9c9da;
+  color: var(--muted);
   font-size: 11px;
   font-weight: 500;
 }
 .sidebar-analysis-group .sidebar-analysis-link:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--navy);
+  background: #e9e7e9;
 }
 .risk-badge {
   display: inline-flex;
@@ -200,11 +207,15 @@ button {
 .main {
   min-width: 0;
   flex: 1;
+  margin-left: 256px;
 }
 .topbar {
-  height: 75px;
-  padding: 0 42px;
-  background: rgba(255, 255, 255, 0.9);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: 64px;
+  padding: 0 32px;
+  background: rgba(251, 249, 250, 0.94);
   border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
@@ -240,7 +251,7 @@ button {
 .content {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 32px 42px 56px;
+  padding: 32px 32px 56px;
 }
 .progress-wrap {
   background: var(--surface);
@@ -427,9 +438,9 @@ button {
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 18px;
-  box-shadow: 0 3px 12px rgba(16, 43, 75, 0.025);
+  box-shadow: 0 2px 8px rgba(27, 28, 29, 0.035);
 }
 .card-title {
   display: flex;
@@ -956,8 +967,11 @@ td,
 
 @media (max-width: 1050px) {
   .sidebar {
-    width: 218px;
-    flex-basis: 218px;
+    width: 232px;
+    flex-basis: 232px;
+  }
+  .main {
+    margin-left: 232px;
   }
   .content,
   .topbar {
@@ -984,7 +998,11 @@ td,
   }
   .sidebar {
     width: 100%;
+    position: static;
     padding: 15px;
+  }
+  .main {
+    margin-left: 0;
   }
   .brand {
     margin-bottom: 17px;
