@@ -12,4 +12,5 @@ export const ADMIN_MENU: MenuItem[] = [
   ...USER_MENU,
   { id: 'admin', label: '관리자', href: '/admin', icon: 'admin' },
   { id: 'admin-users', label: '사용자 관리', href: '/admin/users', icon: 'users' },
+  { id: 'admin-forecast-settings', label: 'Forecast 설정', href: '/admin/forecast-settings', icon: 'admin' },
 ];

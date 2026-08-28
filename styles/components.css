@@ -172,6 +172,23 @@
 .ui-role-badge { display: inline-flex; padding: 4px 8px; border-radius: var(--radius-sm); background: var(--color-surface-high); color: var(--color-primary); font-size: 11px; font-weight: 700; }
 .ui-admin-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 
+.ui-forecast-status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.ui-forecast-status-grid > div {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-high);
+}
+
+.ui-forecast-status-grid span { color: var(--color-text-muted); font-size: 11px; }
+.ui-forecast-status-grid strong { color: var(--color-primary); font-size: 14px; }
+
 .ui-alert-row,
 .ui-insight-banner { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); }
 .ui-alert-row { background: var(--color-critical-bg); color: var(--color-critical); }
@@ -185,5 +202,6 @@
   .ui-page-header { display: block; }
   .ui-page-header .ui-button { margin-top: var(--space-4); }
   .ui-kpi-grid { grid-template-columns: 1fr; }
+  .ui-forecast-status-grid { grid-template-columns: 1fr; }
   .ui-panel { padding: var(--space-4); }
 }

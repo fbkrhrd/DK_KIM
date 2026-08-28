@@ -1,5 +1,19 @@
 import { createSupabaseServerClient } from './supabase';
-import { normalizeLeadtimeGap, normalizeStockoutKpi, normalizeStockoutRisk, type LeadtimeGap, type StockoutKpi, type StockoutRisk } from './scm-model';
+import { requireAdmin } from './auth';
+import {
+  normalizeForecastSettingStatus,
+  normalizeItemPolicy,
+  normalizeLeadtimeGap,
+  normalizeOutlierRule,
+  normalizeStockoutKpi,
+  normalizeStockoutRisk,
+  type ForecastSettingStatus,
+  type ItemPolicy,
+  type LeadtimeGap,
+  type OutlierRule,
+  type StockoutKpi,
+  type StockoutRisk,
+} from './scm-model';
 
 export async function getLeadtimeGap(): Promise<{ rows: LeadtimeGap[]; error: string | null }> {
   try {
@@ -46,5 +60,37 @@ export async function getStockoutRisks(): Promise<{ rows: StockoutRisk[]; error:
       return { rows: [], error: 'Supabase 연결에 실패했습니다. Vercel의 Supabase 환경변수와 프로젝트 상태를 확인하세요.' };
     }
     return { rows: [], error: error instanceof Error ? error.message : 'Supabase 조회에 실패했습니다.' };
+  }
+}
+
+export async function getForecastSettingsOverview(): Promise<{
+  status: ForecastSettingStatus | null;
+  rules: OutlierRule[];
+  itemPolicies: ItemPolicy[];
+  error: string | null;
+}> {
+  await requireAdmin();
+  try {
+    const supabase = await createSupabaseServerClient();
+    const [statusResult, rulesResult, itemPoliciesResult] = await Promise.all([
+      supabase.schema('analytics').from('v_forecast_setting_status').select('*').maybeSingle(),
+      supabase.schema('core').from('outlier_rule').select('rule_id,rule_code,rule_type,enabled,exclude_from_training,priority,description').order('priority'),
+      supabase.schema('core').from('item_policy').select('item_id,moq,pack_size,item_grade,service_level').order('item_id'),
+    ]);
+    const queryError = statusResult.error ?? rulesResult.error ?? itemPoliciesResult.error;
+    if (queryError) return { status: null, rules: [], itemPolicies: [], error: queryError.message };
+    return {
+      status: normalizeForecastSettingStatus(statusResult.data as Record<string, unknown> | null),
+      rules: (rulesResult.data ?? []).map((row) => normalizeOutlierRule(row as Record<string, unknown>)),
+      itemPolicies: (itemPoliciesResult.data ?? []).map((row) => normalizeItemPolicy(row as Record<string, unknown>)),
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: null,
+      rules: [],
+      itemPolicies: [],
+      error: error instanceof Error ? error.message : 'Forecast 설정 조회에 실패했습니다.',
+    };
   }
 }

@@ -33,6 +33,45 @@ export type StockoutKpi = {
   avgStockoutDays: number | null;
 };
 
+export type ForecastSettingStatus = {
+  dataStart: string | null;
+  dataEnd: string | null;
+  trainStart: string | null;
+  trainEnd: string | null;
+  testStart: string | null;
+  testEnd: string | null;
+  granularity: 'DAY' | 'WEEK' | 'MONTH' | null;
+  trainRowCount: number | null;
+  testRowCount: number | null;
+  trainWindowOk: boolean;
+  testWindowOk: boolean;
+  dataIsolationOk: boolean;
+  serviceLevel: number | null;
+  reviewPeriodDays: number | null;
+  safetyBufferDays: number | null;
+  enabledOutlierRuleCount: number | null;
+  itemPolicyCount: number | null;
+  configuredItemPolicyCount: number | null;
+};
+
+export type OutlierRule = {
+  ruleId: string;
+  ruleCode: string;
+  ruleType: string;
+  enabled: boolean;
+  excludeFromTraining: boolean;
+  priority: number | null;
+  description: string | null;
+};
+
+export type ItemPolicy = {
+  itemId: string;
+  moq: number | null;
+  packSize: number | null;
+  itemGrade: string | null;
+  serviceLevel: number | null;
+};
+
 function value(row: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {
     if (row[key] !== undefined && row[key] !== null && row[key] !== '') return row[key];
@@ -86,5 +125,52 @@ export function normalizeStockoutKpi(row: Record<string, unknown> | null): Stock
     nUnknown: numberValue(row ?? {}, ['n_unknown', 'nUnknown']),
     nWithin30d: numberValue(row ?? {}, ['n_within_30d', 'nWithin30d']),
     avgStockoutDays: numberValue(row ?? {}, ['avg_stockout_days', 'avgStockoutDays']),
+  };
+}
+
+export function normalizeForecastSettingStatus(row: Record<string, unknown> | null): ForecastSettingStatus | null {
+  if (!row) return null;
+  const granularity = String(value(row, ['granularity']) ?? '').toUpperCase();
+  return {
+    dataStart: value(row, ['data_start']) as string | null,
+    dataEnd: value(row, ['data_end']) as string | null,
+    trainStart: value(row, ['train_start']) as string | null,
+    trainEnd: value(row, ['train_end']) as string | null,
+    testStart: value(row, ['test_start']) as string | null,
+    testEnd: value(row, ['test_end']) as string | null,
+    granularity: granularity === 'DAY' || granularity === 'WEEK' || granularity === 'MONTH' ? granularity : null,
+    trainRowCount: numberValue(row, ['train_row_count']),
+    testRowCount: numberValue(row, ['test_row_count']),
+    trainWindowOk: value(row, ['train_window_ok']) === true,
+    testWindowOk: value(row, ['test_window_ok']) === true,
+    dataIsolationOk: value(row, ['data_isolation_ok']) === true,
+    serviceLevel: numberValue(row, ['service_level']),
+    reviewPeriodDays: numberValue(row, ['review_period_days']),
+    safetyBufferDays: numberValue(row, ['safety_buffer_days']),
+    enabledOutlierRuleCount: numberValue(row, ['enabled_outlier_rule_count']),
+    itemPolicyCount: numberValue(row, ['item_policy_count']),
+    configuredItemPolicyCount: numberValue(row, ['configured_item_policy_count']),
+  };
+}
+
+export function normalizeOutlierRule(row: Record<string, unknown>): OutlierRule {
+  return {
+    ruleId: String(value(row, ['rule_id']) ?? ''),
+    ruleCode: String(value(row, ['rule_code']) ?? ''),
+    ruleType: String(value(row, ['rule_type']) ?? ''),
+    enabled: value(row, ['enabled']) === true,
+    excludeFromTraining: value(row, ['exclude_from_training']) === true,
+    priority: numberValue(row, ['priority']),
+    description: value(row, ['description']) as string | null,
+  };
+}
+
+export function normalizeItemPolicy(row: Record<string, unknown>): ItemPolicy {
+  return {
+    itemId: String(value(row, ['item_id']) ?? ''),
+    moq: numberValue(row, ['moq']),
+    packSize: numberValue(row, ['pack_size']),
+    itemGrade: value(row, ['item_grade']) as string | null,
+    serviceLevel: numberValue(row, ['service_level']),
   };
 }
