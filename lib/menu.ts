@@ -3,14 +3,16 @@ export type MenuIcon = 'dashboard' | 'demand' | 'inventory' | 'logistics' | 'adm
 export type MenuItem = { id: string; label: string; href: string; icon: MenuIcon };
 
 export const USER_MENU: MenuItem[] = [
-  { id: 'workflow', label: '조달 계획', href: '/workflow', icon: 'dashboard' },
-  { id: 'leadtime', label: '리드타임 격차', href: '/analysis/leadtime', icon: 'logistics' },
-  { id: 'stockout', label: '소진위험', href: '/analysis/stockout', icon: 'inventory' },
+  { id: 'workflow', label: '\uC870\uB2EC \uACC4\uD68D', href: '/workflow', icon: 'dashboard' },
+  { id: 'leadtime', label: '\uB9AC\uB4DC\uD0C0\uC784 \uACA9\uCC28', href: '/analysis/leadtime', icon: 'logistics' },
+  { id: 'stockout', label: '\uC18C\uC9C4\uC704\uD5D8', href: '/analysis/stockout', icon: 'inventory' },
+  { id: 'demand-profile', label: 'Demand Profile', href: '/analysis/demand-profile', icon: 'demand' },
 ];
 
 export const ADMIN_MENU: MenuItem[] = [
   ...USER_MENU,
-  { id: 'admin', label: '관리자', href: '/admin', icon: 'admin' },
-  { id: 'admin-users', label: '사용자 관리', href: '/admin/users', icon: 'users' },
-  { id: 'admin-forecast-settings', label: 'Forecast 설정', href: '/admin/forecast-settings', icon: 'admin' },
+  { id: 'admin', label: '\uAD00\uB9AC\uC790', href: '/admin', icon: 'admin' },
+  { id: 'admin-users', label: '\uC0AC\uC6A9\uC790 \uAD00\uB9AC', href: '/admin/users', icon: 'users' },
+  { id: 'admin-forecast-settings', label: 'Forecast \uC124\uC815', href: '/admin/forecast-settings', icon: 'admin' },
+  { id: 'admin-data-management', label: 'Data Management', href: '/admin/data-management', icon: 'admin' },
 ];

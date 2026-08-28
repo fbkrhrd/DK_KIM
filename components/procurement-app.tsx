@@ -66,6 +66,7 @@ export default function ProcurementApp() {
           <div className="sidebar-analysis-title"><BarChart3 size={13} /><span>분석</span></div>
           <Link className="sidebar-analysis-link" href="/analysis/leadtime">리드타임 격차</Link>
           <Link className="sidebar-analysis-link" href="/analysis/stockout">소진위험</Link>
+          <Link className="sidebar-analysis-link" href="/analysis/demand-profile">Demand Profile</Link>
         </div>
         <div className="sidebar-foot"><b>2026년 09월 발주계획</b><br />로컬 프로토타입 · Phase 1<br />상세 계산·저장은 다음 단계에서 연결됩니다.</div>
       </aside>

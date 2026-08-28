@@ -15,3 +15,8 @@
 - 증상: Vercel 기본 진입 화면에서 로그아웃 버튼이 보이지 않았습니다.
 - 원인: `/workflow`는 신규 `UserShell` 상단바를 사용하지 않는 레거시 화면이며, 상단바 수정분도 아직 GitHub에 푸시되지 않았습니다.
 - 해결: 레거시 workflow에 동일한 `logoutAction` 버튼을 추가하고, 수정분을 원격 `main`에 푸시해 새 Vercel 배포가 생성되도록 했습니다.
+
+## 2026-08-28 STEP 4 build type compatibility
+
+- Symptom: TypeScript build rejected spread iteration over `Set` because this project targets an older JavaScript level.
+- Resolution: Replaced Set spread expressions with `Array.from(...)` in the import mapping and error CSV route.
