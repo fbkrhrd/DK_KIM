@@ -509,6 +509,37 @@ button {
 .metric {
   min-height: 114px;
 }
+.metric,
+.ui-summary-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.metric:hover,
+.metric:focus-within,
+.ui-summary-card:hover,
+.ui-summary-card:focus-within {
+  transform: translateY(-3px);
+  border-color: #b9cdef;
+  box-shadow: 0 10px 24px rgba(47, 111, 237, 0.12);
+}
+.metric::before,
+.ui-summary-card::before {
+  content: "";
+  position: absolute;
+  right: -26px;
+  bottom: -30px;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: var(--pale-blue);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.metric:hover::before,
+.metric:focus-within::before,
+.ui-summary-card:hover::before,
+.ui-summary-card:focus-within::before { opacity: 1; }
 .metric-interactive {
   position: relative;
   overflow: hidden;
