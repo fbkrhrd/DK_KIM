@@ -12,9 +12,9 @@ export type StockoutRisk = {
   itemId: string;
   itemName: string;
   supplierId: string;
-  currentStock: number;
-  inboundQty: number;
-  availableQty: number;
+  currentStock: number | null;
+  inboundQty: number | null;
+  availableQty: number | null;
   dailyUsageAvg: number | null;
   cv: number | null;
   plannedLeadTime: number | null;
@@ -25,11 +25,11 @@ export type StockoutRisk = {
 };
 
 export type StockoutKpi = {
-  nItems: number;
-  nCritical: number;
-  nSafe: number;
-  nUnknown: number;
-  nWithin30d: number;
+  nItems: number | null;
+  nCritical: number | null;
+  nSafe: number | null;
+  nUnknown: number | null;
+  nWithin30d: number | null;
   avgStockoutDays: number | null;
 };
 
@@ -65,9 +65,9 @@ export function normalizeStockoutRisk(row: Record<string, unknown>): StockoutRis
     itemId: String(value(row, ['item_id', 'itemId']) ?? '미정'),
     itemName: String(value(row, ['item_name', 'itemName']) ?? '미정'),
     supplierId: String(value(row, ['supplier_id', 'supplierId']) ?? '미정'),
-    currentStock: numberValue(row, ['current_stock', 'currentStock']) ?? 0,
-    inboundQty: numberValue(row, ['inbound_qty', 'inboundQty']) ?? 0,
-    availableQty: numberValue(row, ['available_qty', 'availableQty']) ?? 0,
+    currentStock: numberValue(row, ['current_stock', 'currentStock']),
+    inboundQty: numberValue(row, ['inbound_qty', 'inboundQty']),
+    availableQty: numberValue(row, ['available_qty', 'availableQty']),
     dailyUsageAvg: numberValue(row, ['daily_usage_avg', 'dailyUsageAvg']),
     cv: numberValue(row, ['cv']),
     plannedLeadTime: numberValue(row, ['planned_lead_time', 'plannedLeadTime']),
@@ -80,11 +80,11 @@ export function normalizeStockoutRisk(row: Record<string, unknown>): StockoutRis
 
 export function normalizeStockoutKpi(row: Record<string, unknown> | null): StockoutKpi {
   return {
-    nItems: numberValue(row ?? {}, ['n_items', 'nItems']) ?? 0,
-    nCritical: numberValue(row ?? {}, ['n_critical', 'nCritical']) ?? 0,
-    nSafe: numberValue(row ?? {}, ['n_safe', 'nSafe']) ?? 0,
-    nUnknown: numberValue(row ?? {}, ['n_unknown', 'nUnknown']) ?? 0,
-    nWithin30d: numberValue(row ?? {}, ['n_within_30d', 'nWithin30d']) ?? 0,
+    nItems: numberValue(row ?? {}, ['n_items', 'nItems']),
+    nCritical: numberValue(row ?? {}, ['n_critical', 'nCritical']),
+    nSafe: numberValue(row ?? {}, ['n_safe', 'nSafe']),
+    nUnknown: numberValue(row ?? {}, ['n_unknown', 'nUnknown']),
+    nWithin30d: numberValue(row ?? {}, ['n_within_30d', 'nWithin30d']),
     avgStockoutDays: numberValue(row ?? {}, ['avg_stockout_days', 'avgStockoutDays']),
   };
 }

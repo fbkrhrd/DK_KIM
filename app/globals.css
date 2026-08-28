@@ -1,6 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap");
+@import url("../styles/shell.css");
+@import url("../styles/components.css");
+@import url("../styles/chart.css");
 
 :root {
+  --color-primary: #041627;
+  --color-primary-container: #1a2b3c;
+  --color-surface: #fbf9fa;
+  --color-surface-low: #f5f3f4;
+  --color-surface-high: #e9e7e9;
+  --color-text: #1b1c1d;
+  --color-text-muted: #5f656d;
+  --color-border: #c4c6cd;
+  --color-safe: #027a48;
+  --color-safe-bg: #d1fadf;
+  --color-warning: #9a5b0d;
+  --color-warning-bg: #feddb5;
+  --color-critical: #ba1a1a;
+  --color-critical-bg: #ffdad6;
+  --color-unavailable: #6941c6;
+  --color-unavailable-bg: #ebe9fe;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 2px 8px rgba(27, 28, 29, 0.035);
   --ink: #1b1c1d;
   --muted: #5f656d;
   --line: #c4c6cd;
