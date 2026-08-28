@@ -1,0 +1,2 @@
+'use server'; import { revalidatePath } from 'next/cache'; import { requireAdmin } from '@/lib/auth'; import { createSupabaseServerClient } from '@/lib/supabase/server';
+export async function runBacktestAction(formData:FormData){await requireAdmin();const s=await createSupabaseServerClient();const {error}=await s.schema('core').rpc('run_backtest',{target_forecast_run:String(formData.get('forecast_run_id'))});if(error)throw new Error(error.message);revalidatePath('/admin/backtests');}

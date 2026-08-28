@@ -20,3 +20,7 @@
 
 - Symptom: TypeScript build rejected spread iteration over `Set` because this project targets an older JavaScript level.
 - Resolution: Replaced Set spread expressions with `Array.from(...)` in the import mapping and error CSV route.
+## 2026-08-28 STEP 7 test syntax
+
+- Symptom: `lib/backtest.test.ts` had a missing closing parenthesis in `readFileSync`.
+- Resolution: Corrected the test syntax and reran the complete test suite.

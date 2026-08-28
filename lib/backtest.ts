@@ -1,0 +1,2 @@
+import { createSupabaseServerClient } from './supabase';
+export async function getModelComparison(){const s=await createSupabaseServerClient();const [p,c,r]=await Promise.all([s.schema('analytics').from('v_model_performance').select('*'),s.schema('analytics').from('v_champion_model').select('*'),s.schema('analytics').from('v_backtest_run').select('*').order('started_at',{ascending:false})]);return {performance:p.data??[],champions:c.data??[],runs:r.data??[],error:p.error?.message??c.error?.message??r.error?.message??null};}
