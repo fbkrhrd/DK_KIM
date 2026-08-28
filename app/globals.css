@@ -270,11 +270,9 @@ button {
   font-size: 12px;
 }
 .workflow-floating-logout {
-  position: fixed;
-  top: 16px;
-  right: 32px;
-  z-index: 60;
-  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 18px 0;
 }
 .workflow-logout-button {
   display: inline-flex;
