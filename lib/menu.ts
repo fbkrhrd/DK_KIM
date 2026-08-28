@@ -14,5 +14,7 @@ export const ADMIN_MENU: MenuItem[] = [
   { id: 'admin', label: '\uAD00\uB9AC\uC790', href: '/admin', icon: 'admin' },
   { id: 'admin-users', label: '\uC0AC\uC6A9\uC790 \uAD00\uB9AC', href: '/admin/users', icon: 'users' },
   { id: 'admin-forecast-settings', label: 'Forecast \uC124\uC815', href: '/admin/forecast-settings', icon: 'admin' },
+  { id: 'admin-forecast-runs', label: 'Forecast Runs', href: '/admin/forecast-runs', icon: 'admin' },
+  { id: 'admin-forecast-models', label: 'Forecast Models', href: '/admin/forecast-models', icon: 'admin' },
   { id: 'admin-data-management', label: 'Data Management', href: '/admin/data-management', icon: 'admin' },
 ];
