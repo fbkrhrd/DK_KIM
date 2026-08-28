@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { BarChart3, Boxes, Gauge, Settings2, Truck } from 'lucide-react';
+import { BarChart3, Boxes, Gauge, Settings2, Truck, Users } from 'lucide-react';
 import { USER_MENU, ADMIN_MENU, type MenuItem, type MenuRole } from '@/lib/menu';
 
-const icons = { dashboard: Gauge, demand: BarChart3, inventory: Boxes, logistics: Truck, admin: Settings2 };
+const icons = { dashboard: Gauge, demand: BarChart3, inventory: Boxes, logistics: Truck, admin: Settings2, users: Users };
 
 export default function Sidebar({ role = 'USER' }: { role?: MenuRole }) {
   const items = role === 'ADMIN' ? ADMIN_MENU : USER_MENU;
