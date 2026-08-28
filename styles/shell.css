@@ -131,6 +131,20 @@
   gap: var(--space-2);
 }
 
+.scm-logout-form { margin: 0; }
+
+.scm-logout-button {
+  border-color: var(--color-critical);
+  background: var(--color-critical-bg);
+  color: var(--color-critical);
+  font-weight: 700;
+}
+
+.scm-logout-button:hover {
+  background: var(--color-critical);
+  color: var(--color-surface);
+}
+
 .ui-icon-button {
   display: grid;
   width: 34px;
@@ -167,6 +181,14 @@
   .scm-topbar {
     padding: 0 var(--space-4);
   }
+
+  .scm-topbar-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .scm-topbar-utility { display: none; }
 
   .scm-page-content {
     padding: var(--space-6) var(--space-4);
