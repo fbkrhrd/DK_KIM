@@ -11,7 +11,7 @@ const tools = createAgentTools(async () => ({
       avg3m: null,
       avg6m: null,
       avg12m: null,
-      observedMonths: 4,
+      observedMonths: 1,
       latestYm: null,
       latestQty: null,
       dataAsOf: null,
@@ -62,7 +62,7 @@ test('returns an explicit reason when an item does not exist', async () => {
   });
 });
 
-test('preserves unavailable calculations and does not convert them to zero', async () => {
+test('returns calculation unavailable for a one-month part without converting it to zero', async () => {
   const demandTool = tools.find((tool) => tool.name === 'get_demand_profile');
   if (!demandTool) throw new Error('Demand tool not found');
 
@@ -70,6 +70,6 @@ test('preserves unavailable calculations and does not convert them to zero', asy
 
   assert.equal(result.ok, true);
   assert.equal(result.reason, 'INSUFFICIENT_HISTORY');
-  assert.equal(result.numbers.observedMonths, 4);
+  assert.equal(result.numbers.observedMonths, 1);
   assert.equal('avg3m' in result.numbers, false);
 });

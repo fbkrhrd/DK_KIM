@@ -69,6 +69,33 @@ test('trims environment values and parses OpenAI-compatible tool_calls', async (
   });
 });
 
+test('serializes assistant tool_calls before its matching tool message', async () => {
+  await withLlmEnv('https://llm.example/v1', 'tool-history-model', async () => {
+    let requestMessages: Array<Record<string, unknown>> = [];
+    await chatCompletion({
+      messages: [
+        {
+          role: 'assistant',
+          content: null,
+          toolCalls: [{ id: 'call_1', type: 'function', name: 'get_shipment_trend', arguments: '{"itemCode":"602K02693"}' }],
+        },
+        { role: 'tool', content: '{"ok":true}', toolCallId: 'call_1' },
+      ] as ChatMessage[],
+      fetchImpl: async (_url, init) => {
+        requestMessages = (JSON.parse(String(init.body)) as { messages?: Array<Record<string, unknown>> }).messages ?? [];
+        return Response.json({ choices: [{ message: { content: '{}' } }] });
+      },
+    });
+
+    assert.deepEqual(requestMessages[0]?.tool_calls, [{
+      id: 'call_1',
+      type: 'function',
+      function: { name: 'get_shipment_trend', arguments: '{"itemCode":"602K02693"}' },
+    }]);
+    assert.equal(requestMessages[1]?.tool_call_id, 'call_1');
+  });
+});
+
 test('falls back from json_schema to json_object once and remembers the capability by base URL and model', async () => {
   await withLlmEnv('https://llm.example/v1', 'schema-fallback-model', async () => {
     const bodies: Record<string, unknown>[] = [];

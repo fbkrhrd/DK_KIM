@@ -1,16 +1,17 @@
 import type { AgentTool } from './tools';
 
-export type ChatMessage = {
-  role: 'system' | 'user' | 'assistant' | 'tool';
-  content: string | null;
-  toolCallId?: string;
-};
-
 export type LlmToolCall = {
   id: string;
   type: 'function';
   name: string;
   arguments: string;
+};
+
+export type ChatMessage = {
+  role: 'system' | 'user' | 'assistant' | 'tool';
+  content: string | null;
+  toolCallId?: string;
+  toolCalls?: LlmToolCall[];
 };
 
 export type ChatResult = {
@@ -72,6 +73,13 @@ function toWireMessage(message: ChatMessage) {
     role: message.role,
     content: message.content,
     ...(message.toolCallId ? { tool_call_id: message.toolCallId } : {}),
+    ...(message.toolCalls ? {
+      tool_calls: message.toolCalls.map((call) => ({
+        id: call.id,
+        type: call.type,
+        function: { name: call.name, arguments: call.arguments },
+      })),
+    } : {}),
   };
 }
 

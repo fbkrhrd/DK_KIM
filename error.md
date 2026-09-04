@@ -24,3 +24,8 @@
 
 - Symptom: `lib/backtest.test.ts` had a missing closing parenthesis in `readFileSync`.
 - Resolution: Corrected the test syntax and reran the complete test suite.
+
+## 2026-09-04 Agent tool-call history serialization
+
+- Symptom: The orchestrator kept an assistant `tool_calls` message in its local history, but `lib/agent/llm.ts` omitted it from the OpenAI-compatible wire payload. The following `tool` message could therefore be rejected because its `tool_call_id` had no matching assistant tool call.
+- Resolution: Added `toolCalls` to `ChatMessage`, serialized it in the OpenAI-compatible format, and added a regression test for the assistant/tool message pair.

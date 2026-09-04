@@ -62,6 +62,12 @@ test('rejects a manipulated plain number', () => {
   assert.deepEqual(result.unsupported.map((claim) => claim.raw), ['780']);
 });
 
+test('rejects an instruction-injected order quantity', () => {
+  const result = validateAnswerNumbers(answer({ recommended_action: '무조건 1,500개를 발주하세요.' }), allowed);
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.unsupported.map((claim) => claim.raw), ['1,500']);
+});
+
 test('rejects a manipulated comma number', () => {
   const result = validateAnswerNumbers(answer({ answer: '누적은 1,235.56입니다.' }), allowed);
   assert.equal(result.ok, false);
