@@ -150,6 +150,65 @@ export type BomRequirement = {
   commonNote: string | null;
 };
 
+export type ShipmentByHocMonth = {
+  ym: string;
+  qty: number;
+};
+
+export type ShipmentByHocTrend = {
+  itemCode: string;
+  hocItem: string;
+  monthlyQty: ShipmentByHocMonth[];
+  avg3m: number | null;
+  avg6m: number | null;
+  avg12m: number | null;
+  observedMonths: number | null;
+  latestYm: string | null;
+  latestQty: number | null;
+  dataAsOf: string | null;
+  reason: string | null;
+};
+
+export type DemandProfile = {
+  itemCode: string;
+  adi: number | null;
+  cvSquared: number | null;
+  zeroDemandRate: number | null;
+  observedMonths: number | null;
+  demandType: 'SMOOTH' | 'ERRATIC' | 'INTERMITTENT' | 'LUMPY' | null;
+  dataAsOf: string | null;
+  reason: string | null;
+};
+
+export type OlAccuracyResult = {
+  modelBase: string;
+  fiscalYear: string | null;
+  salesWape: number | null;
+  salesBias: number | null;
+  scmWape: number | null;
+  scmBias: number | null;
+  salesScoredRows: number | null;
+  scmScoredRows: number | null;
+  dataAsOf: string | null;
+  reason: string | null;
+};
+
+export type BomRequirementResult = {
+  modelBase: string;
+  capItemCode: string | null;
+  capItemName: string | null;
+  optionItemCode: string | null;
+  optionDescription: string | null;
+  optionRole: string | null;
+  sccItemCode: string | null;
+  sccLabel: string | null;
+  componentItemCode: string | null;
+  componentQty: number | null;
+  common: boolean | null;
+  dataAsOf: string | null;
+  reason: string | null;
+};
+
 function value(row: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {
     if (row[key] !== undefined && row[key] !== null && row[key] !== '') return row[key];
