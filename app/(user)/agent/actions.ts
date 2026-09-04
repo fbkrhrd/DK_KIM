@@ -2,6 +2,7 @@
 
 import { requireUser } from '@/lib/auth';
 import { runAgent } from '@/lib/agent/orchestrator';
+import { saveTurn } from '@/lib/agent/conversation';
 import { initialAgentState, validateAgentQuestion, type AgentActionState } from './state';
 
 export async function askAgent(_previous: AgentActionState, formData: FormData): Promise<AgentActionState> {
@@ -17,5 +18,6 @@ export async function askAgent(_previous: AgentActionState, formData: FormData):
     user: { id: user.user_id, role: user.role },
     history: [],
   });
+  await saveTurn(String(formData.get('question')).trim(), result.answer, result.trace);
   return { answer: result.answer, trace: result.trace, error: null };
 }
