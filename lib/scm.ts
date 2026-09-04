@@ -1,16 +1,26 @@
 import { createSupabaseServerClient } from './supabase';
 import { requireAdmin } from './auth';
 import {
+  normalizeBomRequirement,
+  normalizeDemandProfileRt,
   normalizeForecastSettingStatus,
   normalizeItemPolicy,
   normalizeLeadtimeGap,
+  normalizeOlAccuracy,
+  normalizeOlAccuracyFy,
   normalizeOutlierRule,
+  normalizeShipmentTrend,
   normalizeStockoutKpi,
   normalizeStockoutRisk,
+  type BomRequirement,
+  type DemandProfileRt,
   type ForecastSettingStatus,
   type ItemPolicy,
   type LeadtimeGap,
+  type OlAccuracy,
+  type OlAccuracyFy,
   type OutlierRule,
+  type ShipmentTrend,
   type StockoutKpi,
   type StockoutRisk,
 } from './scm-model';
@@ -92,5 +102,72 @@ export async function getForecastSettingsOverview(): Promise<{
       itemPolicies: [],
       error: error instanceof Error ? error.message : 'Forecast 설정 조회에 실패했습니다.',
     };
+  }
+}
+
+export async function getShipmentTrend(itemCode?: string): Promise<{ rows: ShipmentTrend[]; error: string | null }> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    let query = supabase.schema('analytics').from('v_shipment_trend').select('*').order('item_code');
+    if (itemCode) query = query.eq('item_code', itemCode);
+    const { data, error } = await query;
+    if (error) return { rows: [], error: error.message };
+    return { rows: (data ?? []).map((row) => normalizeShipmentTrend(row as Record<string, unknown>)), error: null };
+  } catch (error) {
+    return { rows: [], error: error instanceof Error ? error.message : 'Shipment trend query failed.' };
+  }
+}
+
+export async function getDemandProfileRt(itemCode?: string): Promise<{ rows: DemandProfileRt[]; error: string | null }> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    let query = supabase.schema('analytics').from('v_item_demand_profile').select('*').order('item_code');
+    if (itemCode) query = query.eq('item_code', itemCode);
+    const { data, error } = await query;
+    if (error) return { rows: [], error: error.message };
+    return { rows: (data ?? []).map((row) => normalizeDemandProfileRt(row as Record<string, unknown>)), error: null };
+  } catch (error) {
+    return { rows: [], error: error instanceof Error ? error.message : 'Demand profile query failed.' };
+  }
+}
+
+export async function getOlAccuracy(modelBase?: string): Promise<{
+  rows: OlAccuracy[];
+  fiscalYearRows: OlAccuracyFy[];
+  error: string | null;
+}> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    let accuracyQuery = supabase.schema('analytics').from('v_ol_accuracy').select('*').order('model_base');
+    if (modelBase) accuracyQuery = accuracyQuery.eq('model_base', modelBase);
+    const [accuracyResult, fiscalYearResult] = await Promise.all([
+      accuracyQuery,
+      supabase.schema('analytics').from('v_ol_accuracy_fy').select('*').order('fy_sheet'),
+    ]);
+    const queryError = accuracyResult.error ?? fiscalYearResult.error;
+    if (queryError) return { rows: [], fiscalYearRows: [], error: queryError.message };
+    return {
+      rows: (accuracyResult.data ?? []).map((row) => normalizeOlAccuracy(row as Record<string, unknown>)),
+      fiscalYearRows: (fiscalYearResult.data ?? []).map((row) => normalizeOlAccuracyFy(row as Record<string, unknown>)),
+      error: null,
+    };
+  } catch (error) {
+    return { rows: [], fiscalYearRows: [], error: error instanceof Error ? error.message : 'OL accuracy query failed.' };
+  }
+}
+
+export async function getBomRequirement(modelBase: string): Promise<{ rows: BomRequirement[]; error: string | null }> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .schema('analytics')
+      .from('v_bom_requirement_x')
+      .select('*')
+      .eq('model_base', modelBase)
+      .order('item_code');
+    if (error) return { rows: [], error: error.message };
+    return { rows: (data ?? []).map((row) => normalizeBomRequirement(row as Record<string, unknown>)), error: null };
+  } catch (error) {
+    return { rows: [], error: error instanceof Error ? error.message : 'BOM requirement query failed.' };
   }
 }

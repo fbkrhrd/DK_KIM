@@ -72,6 +72,84 @@ export type ItemPolicy = {
   serviceLevel: number | null;
 };
 
+export type ShipmentTrend = {
+  itemCode: string | null;
+  description: string | null;
+  family: string | null;
+  itemType: string | null;
+  dataAsOf: string | null;
+  nMonths: number | null;
+  firstYm: string | null;
+  lastYm: string | null;
+  monthsSinceLast: number | null;
+  nSpan: number | null;
+  totalQty: number | null;
+  latestQty: number | null;
+  avg3m: number | null;
+  avg6m: number | null;
+  avg12m: number | null;
+  trend3mVs12m: number | null;
+  reasonCode: string | null;
+};
+
+export type DemandProfileRt = {
+  itemCode: string | null;
+  description: string | null;
+  family: string | null;
+  itemType: string | null;
+  dataAsOf: string | null;
+  firstYm: string | null;
+  lastYm: string | null;
+  nPeriods: number | null;
+  nNonzero: number | null;
+  meanNonzeroQty: number | null;
+  adi: number | null;
+  zeroDemandRate: number | null;
+  cvSquared: number | null;
+  demandType: string | null;
+  reasonCode: string | null;
+};
+
+export type OlAccuracy = {
+  modelBase: string | null;
+  fiscalYear: string | null;
+  biz: string | null;
+  nRows: number | null;
+  firstYm: string | null;
+  lastYm: string | null;
+  totalActual: number | null;
+  nScoredSales: number | null;
+  salesWape: number | null;
+  salesBias: number | null;
+  nScoredScm: number | null;
+  scmWape: number | null;
+  scmBias: number | null;
+  reasonCode: string | null;
+};
+
+export type OlAccuracyFy = {
+  fiscalYear: string | null;
+  nRows: number | null;
+  nScored: number | null;
+  salesWape: number | null;
+  scmWape: number | null;
+  salesBias: number | null;
+  scmBias: number | null;
+};
+
+export type BomRequirement = {
+  modelBase: string | null;
+  modelKey: string | null;
+  partRole: string | null;
+  itemCode: string | null;
+  description: string | null;
+  qty: number | null;
+  bomGroup: string | null;
+  nModels: number | null;
+  commonFlag: string | null;
+  commonNote: string | null;
+};
+
 function value(row: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {
     if (row[key] !== undefined && row[key] !== null && row[key] !== '') return row[key];
@@ -84,6 +162,11 @@ function numberValue(row: Record<string, unknown>, keys: string[]) {
   if (raw === null) return null;
   const parsed = Number(raw);
   return Number.isFinite(parsed) ? parsed : null;
+}
+
+function stringValue(row: Record<string, unknown>, keys: string[]) {
+  const raw = value(row, keys);
+  return raw === null ? null : String(raw);
 }
 
 export function normalizeLeadtimeGap(row: Record<string, unknown>): LeadtimeGap {
@@ -172,5 +255,93 @@ export function normalizeItemPolicy(row: Record<string, unknown>): ItemPolicy {
     packSize: numberValue(row, ['pack_size']),
     itemGrade: value(row, ['item_grade']) as string | null,
     serviceLevel: numberValue(row, ['service_level']),
+  };
+}
+
+export function normalizeShipmentTrend(row: Record<string, unknown>): ShipmentTrend {
+  return {
+    itemCode: stringValue(row, ['item_code']),
+    description: stringValue(row, ['description']),
+    family: stringValue(row, ['family']),
+    itemType: stringValue(row, ['item_type']),
+    dataAsOf: stringValue(row, ['data_as_of']),
+    nMonths: numberValue(row, ['n_months']),
+    firstYm: stringValue(row, ['first_ym']),
+    lastYm: stringValue(row, ['last_ym']),
+    monthsSinceLast: numberValue(row, ['months_since_last']),
+    nSpan: numberValue(row, ['n_span']),
+    totalQty: numberValue(row, ['total_qty']),
+    latestQty: numberValue(row, ['latest_qty']),
+    avg3m: numberValue(row, ['avg_3m']),
+    avg6m: numberValue(row, ['avg_6m']),
+    avg12m: numberValue(row, ['avg_12m']),
+    trend3mVs12m: numberValue(row, ['trend_3m_vs_12m']),
+    reasonCode: stringValue(row, ['reason_code']),
+  };
+}
+
+export function normalizeDemandProfileRt(row: Record<string, unknown>): DemandProfileRt {
+  return {
+    itemCode: stringValue(row, ['item_code']),
+    description: stringValue(row, ['description']),
+    family: stringValue(row, ['family']),
+    itemType: stringValue(row, ['item_type']),
+    dataAsOf: stringValue(row, ['data_as_of']),
+    firstYm: stringValue(row, ['first_ym']),
+    lastYm: stringValue(row, ['last_ym']),
+    nPeriods: numberValue(row, ['n_periods']),
+    nNonzero: numberValue(row, ['n_nonzero']),
+    meanNonzeroQty: numberValue(row, ['mean_nonzero_qty']),
+    adi: numberValue(row, ['adi']),
+    zeroDemandRate: numberValue(row, ['zero_demand_rate']),
+    cvSquared: numberValue(row, ['cv_squared']),
+    demandType: stringValue(row, ['demand_type']),
+    reasonCode: stringValue(row, ['reason_code']),
+  };
+}
+
+export function normalizeOlAccuracy(row: Record<string, unknown>): OlAccuracy {
+  return {
+    modelBase: stringValue(row, ['model_base']),
+    fiscalYear: stringValue(row, ['fy_sheet']),
+    biz: stringValue(row, ['biz']),
+    nRows: numberValue(row, ['n_rows']),
+    firstYm: stringValue(row, ['first_ym']),
+    lastYm: stringValue(row, ['last_ym']),
+    totalActual: numberValue(row, ['total_act']),
+    nScoredSales: numberValue(row, ['n_scored_sales']),
+    salesWape: numberValue(row, ['sales_wape']),
+    salesBias: numberValue(row, ['sales_bias']),
+    nScoredScm: numberValue(row, ['n_scored_scm']),
+    scmWape: numberValue(row, ['scm_wape']),
+    scmBias: numberValue(row, ['scm_bias']),
+    reasonCode: stringValue(row, ['reason_code']),
+  };
+}
+
+export function normalizeOlAccuracyFy(row: Record<string, unknown>): OlAccuracyFy {
+  return {
+    fiscalYear: stringValue(row, ['fy_sheet']),
+    nRows: numberValue(row, ['n_rows']),
+    nScored: numberValue(row, ['n_scored']),
+    salesWape: numberValue(row, ['sales_wape']),
+    scmWape: numberValue(row, ['scm_wape']),
+    salesBias: numberValue(row, ['sales_bias']),
+    scmBias: numberValue(row, ['scm_bias']),
+  };
+}
+
+export function normalizeBomRequirement(row: Record<string, unknown>): BomRequirement {
+  return {
+    modelBase: stringValue(row, ['model_base']),
+    modelKey: stringValue(row, ['model_key']),
+    partRole: stringValue(row, ['part_role']),
+    itemCode: stringValue(row, ['item_code']),
+    description: stringValue(row, ['description']),
+    qty: numberValue(row, ['qty']),
+    bomGroup: stringValue(row, ['bom_group']),
+    nModels: numberValue(row, ['n_models']),
+    commonFlag: stringValue(row, ['common_flag']),
+    commonNote: stringValue(row, ['common_note']),
   };
 }
