@@ -8,6 +8,7 @@ export const USER_MENU: MenuItem[] = [
   { id: 'stockout', label: '\uC18C\uC9C4\uC704\uD5D8', href: '/analysis/stockout', icon: 'inventory' },
   { id: 'demand-profile', label: 'Demand Profile', href: '/analysis/demand-profile', icon: 'demand' },
   { id: 'model-comparison', label: 'Model Comparison', href: '/analysis/model-comparison', icon: 'demand' },
+  { id: 'agent', label: 'SCM Agent', href: '/agent', icon: 'dashboard' },
 ];
 
 export const ADMIN_MENU: MenuItem[] = [
